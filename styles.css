@@ -396,23 +396,23 @@ button {
 .brush {
   position: absolute;
   left: 50%;
-  top: 48px;
-  width: 14px;
-  height: 42px;
-  margin-left: -7px;
+  top: 22px;
+  width: 12px;
+  height: 22px;
+  margin-left: -6px;
   background: #6ad18b;
   border-radius: 4px;
   opacity: 0;
-  transform: rotate(18deg);
+  transform-origin: top center;
 }
 
 .brush::before {
   content: "";
   position: absolute;
-  top: -12px;
-  left: -4px;
-  width: 22px;
-  height: 14px;
+  bottom: -10px;
+  left: -6px;
+  width: 24px;
+  height: 12px;
   background: #fff;
   border: 2px solid #cfd8df;
   border-radius: 4px;
@@ -425,16 +425,40 @@ button {
   opacity: 1;
 }
 
+.character[data-pose="holding"] .right-arm,
+.character[data-pose="brushing"] .right-arm {
+  top: 20px;
+  right: auto;
+  left: 48px;
+  height: 46px;
+  z-index: 7;
+}
+
 .character[data-pose="holding"] .right-arm {
-  transform: rotate(-28deg);
+  transform: rotate(-24deg);
 }
 
 .character[data-pose="brushing"] .right-arm {
-  animation: brushMove 0.35s ease-in-out infinite alternate;
+  animation: brushMove 0.28s ease-in-out infinite alternate;
+}
+
+.character[data-pose="brushing"][data-spot="top"] .right-arm {
+  animation-name: brushTop;
+}
+
+.character[data-pose="brushing"][data-spot="bottom"] .right-arm {
+  animation-name: brushBottom;
 }
 
 .character[data-pose="rinsing"] .right-arm {
-  transform: rotate(25deg);
+  top: 18px;
+  right: auto;
+  left: 36px;
+  transform: rotate(18deg);
+}
+
+.character[data-pose="rinsing"] .brush {
+  opacity: 0;
 }
 
 .character[data-pose="celebrating"] {
@@ -451,10 +475,28 @@ button {
 
 @keyframes brushMove {
   from {
-    transform: rotate(-40deg);
+    transform: rotate(-32deg);
   }
   to {
-    transform: rotate(-5deg);
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes brushTop {
+  from {
+    transform: rotate(-48deg);
+  }
+  to {
+    transform: rotate(-16deg);
+  }
+}
+
+@keyframes brushBottom {
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(22deg);
   }
 }
 
@@ -486,10 +528,10 @@ button {
 
 .bubbles {
   position: absolute;
-  left: 42%;
-  top: 42%;
-  width: 80px;
-  height: 60px;
+  left: 22px;
+  top: 42px;
+  width: 70px;
+  height: 48px;
   pointer-events: none;
   opacity: 0;
   z-index: 6;
@@ -639,11 +681,12 @@ button {
   outline-offset: 2px;
 }
 
-.code-bar.is-glow {
-  animation: barGlow 1s ease;
-  box-shadow: 0 0 0 4px #ffd86b, 0 0 18px #ffe08a, 0 3px 0 #2a89ba;
-  background: #ffe08a;
-  border-color: #e0a800;
+button.code-bar.is-glow {
+  background: #ffe14a;
+  border-color: #e09000;
+  color: #083552;
+  box-shadow: 0 0 0 4px #fff7c2, 0 0 0 9px #ffb703, 0 0 22px 6px #ffd86b;
+  animation: barGlow 0.45s ease-in-out 2 alternate;
 }
 
 @keyframes barGlow {

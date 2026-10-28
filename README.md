@@ -19,7 +19,7 @@ A one-screen game that helps a first grader practice brushing teeth by putting c
 2. Grab brush → Add toothpaste → Brush teeth
 3. Grab brush → Add toothpaste → Brush top teeth → Brush bottom teeth → Rinse
 
-Extra bars that do not belong are mixed in, so the child has to choose.
+Each level shows only those bars, shuffled into the wrong order.
 
 ### Zoom
 

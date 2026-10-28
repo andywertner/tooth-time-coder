@@ -11,23 +11,17 @@
     "Brush teeth": { kind: "brush", pose: "brushing" },
     "Brush top teeth": { kind: "brush", pose: "brushing" },
     "Brush bottom teeth": { kind: "brush", pose: "brushing" },
-    Rinse: { kind: "rinse", pose: "rinsing" },
-    "Wash face": { kind: "extra", pose: "waiting" },
-    "Comb hair": { kind: "extra", pose: "waiting" },
-    "Put on pajamas": { kind: "extra", pose: "waiting" },
-    "Drink juice": { kind: "extra", pose: "waiting" }
+    Rinse: { kind: "rinse", pose: "rinsing" }
   };
 
   var LEVELS = [
     {
       name: "Level 1",
-      goal: ["Grab brush", "Brush teeth"],
-      extras: ["Wash face", "Comb hair"]
+      goal: ["Grab brush", "Brush teeth"]
     },
     {
       name: "Level 2",
-      goal: ["Grab brush", "Add toothpaste", "Brush teeth"],
-      extras: ["Wash face", "Drink juice"]
+      goal: ["Grab brush", "Add toothpaste", "Brush teeth"]
     },
     {
       name: "Level 3",
@@ -37,8 +31,7 @@
         "Brush top teeth",
         "Brush bottom teeth",
         "Rinse"
-      ],
-      extras: ["Comb hair", "Put on pajamas", "Wash face"]
+      ]
     }
   ];
 
@@ -61,11 +54,14 @@
 
   var state = {
     levelIndex: 0,
+    tray: [],
     program: [],
     busy: false,
     speechReady: false,
     zoom: 100
   };
+
+  var glowTimer = null;
 
   function loadSave() {
     try {
@@ -153,22 +149,40 @@
     return copy;
   }
 
-  /** look: the bars that can be used */
-  function look() {
-    var level = LEVELS[state.levelIndex];
-    var labels = shuffle(level.goal.concat(level.extras));
-    lookTray.innerHTML = "";
-    for (var i = 0; i < labels.length; i++) {
-      lookTray.appendChild(makeBar(labels[i], false));
+  function shuffledWrong(goal) {
+    var labels = goal.slice();
+    if (labels.length < 2) return labels;
+    var tries = 0;
+    do {
+      labels = shuffle(goal);
+      tries += 1;
+    } while (listsMatch(labels, goal) && tries < 8);
+    if (listsMatch(labels, goal)) {
+      var first = labels[0];
+      labels[0] = labels[1];
+      labels[1] = first;
     }
     return labels;
+  }
+
+  /** look: the bars that can be used */
+  function look() {
+    lookTray.innerHTML = "";
+    for (var i = 0; i < state.tray.length; i++) {
+      lookTray.appendChild(makeBar(state.tray[i], false));
+    }
+    return state.tray.slice();
   }
 
   /** add: put a bar on the list */
   function add(label) {
     if (state.busy) return;
     if (!label || !ALL_BARS[label]) return;
+    var idx = state.tray.indexOf(label);
+    if (idx === -1) return;
+    state.tray.splice(idx, 1);
     state.program.push(label);
+    look();
     renderProgram();
     speak(label);
     save();
@@ -231,6 +245,8 @@
         if (state.busy) return;
         unlockSpeech();
         state.program.splice(index, 1);
+        state.tray.push(label);
+        look();
         renderProgram();
       });
       el.appendChild(remove);
@@ -257,7 +273,11 @@
   }
 
   function clearGlow() {
-    var glowing = lookTray.querySelectorAll(".is-glow");
+    if (glowTimer) {
+      window.clearTimeout(glowTimer);
+      glowTimer = null;
+    }
+    var glowing = document.querySelectorAll(".code-bar.is-glow");
     for (var i = 0; i < glowing.length; i++) {
       glowing[i].classList.remove("is-glow");
     }
@@ -275,16 +295,19 @@
     }
     if (!nextLabel) nextLabel = goal[0];
 
-    var bars = lookTray.querySelectorAll(".code-bar");
+    var bars = document.querySelectorAll(".code-bar");
     for (var j = 0; j < bars.length; j++) {
       if (bars[j].getAttribute("data-label") === nextLabel) {
         bars[j].classList.add("is-glow");
-        break;
       }
     }
 
-    window.setTimeout(function () {
-      clearGlow();
+    glowTimer = window.setTimeout(function () {
+      glowTimer = null;
+      var still = document.querySelectorAll(".code-bar.is-glow");
+      for (var k = 0; k < still.length; k++) {
+        still[k].classList.remove("is-glow");
+      }
     }, 1000);
   }
 
@@ -308,6 +331,9 @@
     if (label === "Add toothpaste") {
       toothpasteTube.classList.add("is-used");
     }
+    if (label === "Brush top teeth") character.setAttribute("data-spot", "top");
+    else if (label === "Brush bottom teeth") character.setAttribute("data-spot", "bottom");
+    else character.setAttribute("data-spot", "teeth");
     change(meta.pose);
     var duration = meta.pose === "brushing" ? 1200 : meta.pose === "rinsing" ? 1100 : 900;
     return wait(duration);
@@ -343,6 +369,7 @@
     cheer.hidden = true;
     takeAway();
     state.program = [];
+    state.tray = shuffledWrong(LEVELS[state.levelIndex].goal);
     renderProgram();
     look();
     change("waiting");
@@ -395,6 +422,8 @@
     unlockSpeech();
     if (state.busy) return;
     state.program = [];
+    state.tray = shuffledWrong(LEVELS[state.levelIndex].goal);
+    look();
     renderProgram();
     change("waiting");
     speak("List cleared.");
