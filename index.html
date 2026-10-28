@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tooth Time Coder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="top-bar">
+      <div class="titles">
+        <h1>Tooth Time Coder</h1>
+        <p class="credit">Made from a plan by Anthony, grade 6.</p>
+      </div>
+      <div class="level-badge" id="levelBadge" aria-live="polite">Level 1</div>
+      <div class="zoom-controls" role="group" aria-label="Zoom">
+        <span class="zoom-label">Zoom</span>
+        <button type="button" class="zoom-btn" data-zoom="70" aria-label="Zoom 70 percent">70</button>
+        <button type="button" class="zoom-btn" data-zoom="80" aria-label="Zoom 80 percent">80</button>
+        <button type="button" class="zoom-btn" data-zoom="90" aria-label="Zoom 90 percent">90</button>
+        <button type="button" class="zoom-btn is-active" data-zoom="100" aria-label="Zoom 100 percent">100</button>
+        <button type="button" class="zoom-btn" data-zoom="115" aria-label="Zoom 115 percent">115</button>
+        <button type="button" class="zoom-btn" data-zoom="130" aria-label="Zoom 130 percent">130</button>
+      </div>
+    </header>
+
+    <main class="stage">
+      <section class="scene-panel" aria-label="Sink scene">
+        <div class="scene" id="scene">
+          <div class="wall"></div>
+          <div class="mirror"></div>
+          <div class="sink">
+            <div class="basin"></div>
+            <div class="faucet"></div>
+            <div class="water" id="water"></div>
+          </div>
+          <div class="counter"></div>
+          <div class="toothpaste-tube" id="toothpasteTube" aria-hidden="true"></div>
+          <div class="character" id="character" data-pose="waiting">
+            <div class="char-body">
+              <div class="char-head">
+                <div class="char-hair"></div>
+                <div class="char-face">
+                  <div class="eye left"></div>
+                  <div class="eye right"></div>
+                  <div class="mouth" id="charMouth"></div>
+                  <div class="blush left"></div>
+                  <div class="blush right"></div>
+                </div>
+              </div>
+              <div class="char-torso"></div>
+              <div class="char-arm left-arm"></div>
+              <div class="char-arm right-arm">
+                <div class="brush" id="brushProp"></div>
+              </div>
+              <div class="char-legs">
+                <div class="leg"></div>
+                <div class="leg"></div>
+              </div>
+            </div>
+          </div>
+          <div class="bubbles" id="bubbles" aria-hidden="true"></div>
+        </div>
+        <p class="spoken" id="spoken" aria-live="polite"></p>
+      </section>
+
+      <section class="code-panel" aria-label="Coding bars">
+        <div class="panel-block look-block">
+          <h2>Look</h2>
+          <p class="hint">Tap a bar or drag it into your list.</p>
+          <div class="bar-tray" id="lookTray" role="list"></div>
+        </div>
+
+        <div class="panel-block list-block">
+          <h2>Your list</h2>
+          <div
+            class="program-list"
+            id="programList"
+            role="list"
+            aria-label="Program list"
+          ></div>
+          <div class="list-actions">
+            <button type="button" class="btn btn-clear" id="clearBtn">Clear</button>
+            <button type="button" class="btn btn-go" id="goBtn">Go</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <button type="button" class="mistake-star" id="mistakeStar" hidden aria-label="Take away mistake star">★</button>
+
+    <div class="cheer" id="cheer" hidden>
+      <div class="cheer-card">
+        <p class="cheer-title">You did it!</p>
+        <p class="cheer-body">Bright smile. Fresh teeth. Great coding!</p>
+        <button type="button" class="btn btn-go" id="playAgainBtn">Play again</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

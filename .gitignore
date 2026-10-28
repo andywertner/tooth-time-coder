@@ -1,0 +1,10 @@
+.DS_Store
+*.log
+.idea/
+.vscode/
+node_modules/
+package.json
+package-lock.json
+playtest*.png
+playtest.mjs
+.chrome-profile/
