@@ -109,7 +109,7 @@ button {
   flex: 1;
   display: flex;
   min-height: 0;
-  padding: 10px 14px 12px;
+  padding: 8px 14px 44px;
   gap: 12px;
 }
 
@@ -592,6 +592,7 @@ button {
   gap: 10px;
   min-width: 360px;
   min-height: 0;
+  overflow: hidden;
 }
 
 .panel-block {
@@ -606,10 +607,12 @@ button {
 
 .look-block {
   flex: 1.1;
+  overflow: hidden;
 }
 
 .list-block {
   flex: 1;
+  overflow: hidden;
 }
 
 .panel-block h2 {
@@ -639,7 +642,7 @@ button {
   border: 3px dashed #9ec7e3;
   border-radius: 14px;
   background: #f3faff;
-  min-height: 120px;
+  min-height: 64px;
 }
 
 .program-list.is-drag-over {
@@ -745,6 +748,7 @@ button.code-bar.is-glow {
   display: flex;
   gap: 10px;
   margin-top: 10px;
+  flex-shrink: 0;
 }
 
 .btn {
@@ -849,6 +853,141 @@ button.code-bar.is-glow {
 
 .cheer-card .btn {
   width: 100%;
+}
+
+.feedback-dock {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.feedback-open,
+.feedback-close,
+.feedback-send {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  border-radius: 10px;
+  min-height: 32px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.feedback-open {
+  border: 2px solid #0d4f7a;
+  background: #fff;
+  color: #0d4f7a;
+  font-size: 14px;
+}
+
+.feedback-panel {
+  width: 240px;
+  margin: 0 0 6px;
+  padding: 8px;
+  background: #fff;
+  border: 3px solid #0d4f7a;
+  border-radius: 12px;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.12);
+}
+
+.feedback-panel[hidden] {
+  display: none;
+}
+
+.feedback-field {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #0d4f7a;
+}
+
+.feedback-field input,
+.feedback-field select,
+.feedback-field textarea {
+  display: block;
+  width: 100%;
+  margin-top: 2px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  color: #1b2a38;
+  border: 2px solid #7eb8de;
+  border-radius: 8px;
+  padding: 4px 6px;
+  background: #fff;
+}
+
+.feedback-field input,
+.feedback-field select {
+  height: 28px;
+}
+
+.feedback-field textarea {
+  height: 44px;
+  resize: none;
+}
+
+.feedback-note,
+.feedback-thanks {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.feedback-note {
+  color: #9a3412;
+}
+
+.feedback-thanks {
+  color: #187a3e;
+}
+
+.feedback-note[hidden],
+.feedback-thanks[hidden] {
+  display: none;
+}
+
+.feedback-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.feedback-close,
+.feedback-send {
+  flex: 1;
+  font-size: 14px;
+}
+
+.feedback-close {
+  border: 2px solid #9eb4c4;
+  background: #fff;
+  color: #35586f;
+}
+
+.feedback-send {
+  border: 2px solid #1f9a4f;
+  background: #31c46b;
+  color: #fff;
+}
+
+.feedback-send:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.feedback-frame {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0;
+  left: 0;
+  top: 0;
+  visibility: hidden;
 }
 
 @media (max-height: 700px) {
